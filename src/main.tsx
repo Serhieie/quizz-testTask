@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter basename="/quiz-testTask">
+      <BrowserRouter basename="/quizz-testTask/">
         <PersistGate loading={null} persistor={persistor}>
           <App />
         </PersistGate>
