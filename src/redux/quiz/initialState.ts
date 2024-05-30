@@ -1,6 +1,7 @@
 import { QuizStateInterface } from './quizzes.types';
 
 export const initialState: QuizStateInterface = {
+  isLoading: false,
   activeQuizzId: '',
   filter: '',
   quizzes: [

@@ -6,9 +6,11 @@ import {
   getQuestionsByQuizId,
   getQuizById,
   getQuizzes,
+  getIsLoading,
 } from '../redux/quiz/quizzessSelectors';
 
 interface useQuizeStateReturn {
+  isLoading: boolean;
   activeQuizzId?: string;
   activeQuizz?: Quizz | undefined;
   quizz?: Quizz | undefined;
@@ -38,9 +40,10 @@ export const useQuizeState = ({
   const questions: Question[] | undefined = useSelector(
     getQuestionsByQuizId(quizId)
   );
+  const isLoading: boolean = useSelector(getIsLoading);
 
   if (!quizId && !questionId) {
-    return { quizzes, activeQuizz };
+    return { quizzes, activeQuizz, isLoading };
   }
 
   return {
@@ -50,5 +53,6 @@ export const useQuizeState = ({
     quizzes,
     question,
     questions,
+    isLoading,
   };
 };

@@ -17,7 +17,7 @@ export const EnterNamePage = () => {
   };
 
   return (
-    <div className="py-12 px-6 mx-auto w-[500px]">
+    <div className="py-12 px-6 mx-auto w-full max-w-[500px] xs:px-1">
       <label
         className="flex flex-col gap-4 text-2xl select-none mb-6"
         htmlFor="nameInput"

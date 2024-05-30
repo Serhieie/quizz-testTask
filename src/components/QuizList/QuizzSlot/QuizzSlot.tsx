@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { QuizSlotProps } from './QuizzSlot.types';
-import { setActiveQuizz } from '../../../redux/quiz/quizSlice';
+import { setActiveQuizz, setIsLoading } from '../../../redux/quiz/quizSlice';
 import { FiEdit3 } from 'react-icons/fi';
 import { RiDeleteBackFill } from 'react-icons/ri';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useMedia } from '../../../hooks/useMedia';
 import clsx from 'clsx';
@@ -16,8 +16,13 @@ export const QuizSlot: React.FC<QuizSlotProps> = ({ quiz }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     dispatch(setActiveQuizz(quiz.id));
+    dispatch(setIsLoading(true));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    dispatch(setIsLoading(false));
+
+    navigate(quiz.id);
   };
 
   const handlMouseEnter = () => {
@@ -37,17 +42,21 @@ export const QuizSlot: React.FC<QuizSlotProps> = ({ quiz }) => {
     setIsOpen(false);
   };
 
-  const handleEditClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleEditClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     e.preventDefault();
     dispatch(setActiveQuizz(quiz.id));
+
+    dispatch(setIsLoading(true));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    dispatch(setIsLoading(false));
+
     navigate('/quizzForm');
   };
 
   return (
     <>
-      <NavLink
-        to={`${quiz.id}`}
+      <div
         onClick={handleClick}
         onMouseEnter={handlMouseEnter}
         onMouseLeave={handlMouseLeave}
@@ -81,7 +90,7 @@ export const QuizSlot: React.FC<QuizSlotProps> = ({ quiz }) => {
             <FiEdit3 />
           </span>
         </div>
-      </NavLink>
+      </div>
       <ConfirmDeleteModal
         isOpen={isOpen}
         onCancel={handleCloseDeleteModal}

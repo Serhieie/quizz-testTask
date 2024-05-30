@@ -17,6 +17,9 @@ export const quizzesSlice = createSlice({
     setActiveQuizz: (state, action: PayloadAction<string>) => {
       state.activeQuizzId = action.payload;
     },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     removeActiveQuizz: (state) => {
       state.activeQuizzId = '';
     },
@@ -85,4 +88,5 @@ export const {
   editQuestion,
   setActiveQuizz,
   removeActiveQuizz,
+  setIsLoading,
 } = quizzesSlice.actions;

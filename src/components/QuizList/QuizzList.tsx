@@ -6,7 +6,7 @@ import { IoSearch } from 'react-icons/io5';
 import { useMedia } from '../../hooks/useMedia';
 
 export const QuizList: React.FC = () => {
-  const { quizzes } = useQuizeState();
+  const { quizzes, isLoading } = useQuizeState();
   const { isMobile } = useMedia();
   const [filter, setFilter] = useState('');
 
@@ -52,10 +52,15 @@ export const QuizList: React.FC = () => {
           </label>
         )}
       </div>
-      <div className="h-[calc(100dvh-216px)] bg-purple-200 rounded-lg overflow-y-auto">
+      <div className="h-[calc(100dvh-216px)] bg-purple-200 rounded-lg overflow-y-auto pt-1">
+        <div className="h-4 text-center w-full">
+          {' '}
+          {isLoading && <p>Loading...</p>}
+        </div>
+
         <div
           className="grid xl:grid-cols-7 md:grid-cols-5 sm:grid-cols-3
-       xs:grid-cols-2 gap-2  px-2
+       xs:grid-cols-2 gap-2  px-2 
         py-2 "
         >
           {filteredQuizzes &&

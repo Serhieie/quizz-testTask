@@ -27,6 +27,7 @@ export interface Quizz {
 }
 
 export interface QuizStateInterface {
+  isLoading: boolean;
   activeQuizzId: string;
   filter: string;
   quizzes: Quizz[];

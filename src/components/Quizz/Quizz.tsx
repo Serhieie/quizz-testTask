@@ -6,6 +6,7 @@ import { ButtonsSet } from '../ButtonsSet/ButtonsSet';
 import { CompletedQuizz } from '../CompletedQuizz/CompletedQuizz';
 import { useDispatch } from 'react-redux';
 import { setCurrentCorrectAnswers } from '../../redux/user/userSlice';
+import { setIsLoading } from '../../redux/quiz/quizSlice';
 
 export const Quizz: React.FC = () => {
   const { activeQuizz } = useQuizeState();
@@ -24,34 +25,50 @@ export const Quizz: React.FC = () => {
     }
   }, [activeQuestionIndex, lastIndex]);
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     if (activeQuestionIndex < lastIndex) {
       setTime('00:59');
+
+      dispatch(setIsLoading(true));
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      dispatch(setIsLoading(false));
+
       setActiveQuestionIndex((prevIndex) => prevIndex + 1);
       setSelectedOptionIndex(null);
     } else {
+      dispatch(setIsLoading(true));
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      dispatch(setIsLoading(false));
+
       setIsQuizCompleted(true);
       setSelectedOptionIndex(null);
     }
   };
 
-  const handleOptionChange = (index: number) => {
-    console.log(index);
+  const handleOptionChange = async (index: number) => {
     setSelectedOptionIndex(index);
   };
 
   const currentQuestion = activeQuizz?.questions[activeQuestionIndex];
 
-  const handleAcceptClick = () => {
+  const handleAcceptClick = async () => {
     if (!selectedOptionIndex && selectedOptionIndex !== 0) return;
     if (activeQuestionIndex <= lastIndex) {
       setTime('00:59');
       if (selectedOptionIndex === currentQuestion?.correctIndex) {
         dispatch(setCurrentCorrectAnswers(1));
       }
+      dispatch(setIsLoading(true));
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      dispatch(setIsLoading(false));
+
       setActiveQuestionIndex((prevIndex) => prevIndex + 1);
       setSelectedOptionIndex(null);
     } else {
+      dispatch(setIsLoading(true));
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      dispatch(setIsLoading(false));
+
       setIsQuizCompleted(true);
       setSelectedOptionIndex(null);
     }
@@ -66,7 +83,7 @@ export const Quizz: React.FC = () => {
 
   return (
     activeQuizz && (
-      <div className="flex flex-col gap-3 w-[100dvw] py-12 xl:px-64 md:px-32 sm:px-20 xs:px-6">
+      <div className="flex flex-col gap-3 w-[100dvw] py-4 xl:px-64 md:px-32 sm:px-20 xs:px-6">
         <h2 className="text-lg font-semibold select-none">
           {activeQuizz.title}
         </h2>
@@ -80,7 +97,7 @@ export const Quizz: React.FC = () => {
               selectedOptionIndex={selectedOptionIndex}
               handleOptionChange={handleOptionChange}
             />
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center ">
               <ButtonsSet
                 skipKlick={handleNextClick}
                 acceptClick={handleAcceptClick}

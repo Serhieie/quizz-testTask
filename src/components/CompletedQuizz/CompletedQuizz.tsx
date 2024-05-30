@@ -11,11 +11,11 @@ import {
 import { useQuizeState } from '../../hooks/useQuizeState';
 import { useMedia } from '../../hooks/useMedia';
 import { useNavigate } from 'react-router-dom';
-import { setActiveQuizz } from '../../redux/quiz/quizSlice';
+import { setActiveQuizz, setIsLoading } from '../../redux/quiz/quizSlice';
 
 export const CompletedQuizz: React.FC<ComplitedQuizzProps> = () => {
   const { currentCorrectAnswers, totalCorrectAnswers, name } = useUserState();
-  const { activeQuizz } = useQuizeState();
+  const { activeQuizz, isLoading } = useQuizeState();
   const { isMobile, isTablet } = useMedia();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,8 +27,13 @@ export const CompletedQuizz: React.FC<ComplitedQuizzProps> = () => {
 
   //   if (!activeQuizz) return null;
 
-  const handleClick = () => {
+  const handleClick = async () => {
     dispatch(setTotalCorrectAnswers(currentCorrectAnswers));
+
+    dispatch(setIsLoading(true));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    dispatch(setIsLoading(false));
+
     dispatch(resetCurrentCorrectAnswers());
     dispatch(setActiveQuizz(''));
     navigate('/quizzes');
@@ -65,7 +70,7 @@ export const CompletedQuizz: React.FC<ComplitedQuizzProps> = () => {
           onClick={handleClick}
           type="button"
         >
-          Accept
+          {isLoading ? 'Loading...' : 'Accept'}
         </button>
       </div>
     </div>

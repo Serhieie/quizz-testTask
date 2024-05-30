@@ -5,6 +5,7 @@ import {
   addQuiz,
   editQuiz,
   removeActiveQuizz,
+  setIsLoading,
 } from '../../redux/quiz/quizSlice';
 import { AddQuestionForm } from './AddQuestionFrom';
 import { ButtonsSet } from '../ButtonsSet/ButtonsSet';
@@ -36,14 +37,18 @@ export const AddOrEditQuizzForm: React.FC = () => {
     }
   }, [activeQuizz]);
 
-  const handleAddQuestion = () => {
+  const handleAddQuestion = async () => {
     setQuestions([
       ...questions,
       { id: nanoid(), title: '', correctIndex: 0, options: ['', '', '', ''] },
     ]);
+
+    dispatch(setIsLoading(true));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    dispatch(setIsLoading(false));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (activeQuizz) {
       if (questions.length < 2)
         return Notiflix.Notify.failure('You need fill minimum two questions');
@@ -62,6 +67,11 @@ export const AddOrEditQuizzForm: React.FC = () => {
       };
       dispatch(editQuiz(newQuiz));
       dispatch(removeActiveQuizz());
+
+      dispatch(setIsLoading(true));
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      dispatch(setIsLoading(false));
+
       navigate('/quizzes');
       Notiflix.Notify.success('Quiz Success Edited');
     } else {
@@ -82,6 +92,11 @@ export const AddOrEditQuizzForm: React.FC = () => {
       };
       dispatch(addQuiz(newQuiz));
       Notiflix.Notify.success('Added success');
+
+      dispatch(setIsLoading(true));
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      dispatch(setIsLoading(false));
+
       navigate('/quizzes');
     }
   };

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Portal } from '../ModalPortal/ModalPortal';
 import { ConfirmDeleteModalProps } from './ConfirmDeleteModal.types';
-import { removeQuiz } from '../../redux/quiz/quizSlice';
+import { removeQuiz, setIsLoading } from '../../redux/quiz/quizSlice';
 
 export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   isOpen,
@@ -11,7 +11,10 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   const dispatch = useDispatch();
   if (!isOpen) return null;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    dispatch(setIsLoading(true));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    dispatch(setIsLoading(false));
     dispatch(removeQuiz(quizId));
   };
 

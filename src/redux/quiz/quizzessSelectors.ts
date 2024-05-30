@@ -4,7 +4,14 @@ import { QuizStateInterface } from './quizzes.types';
 export const getQuizState = (state: { quiz: QuizStateInterface }) => state.quiz;
 
 export const getQuizzes = createSelector(getQuizState, (quiz) => quiz.quizzes);
-export const getActiveQuizz = createSelector(getQuizState, (quiz) => quiz.activeQuizzId);
+export const getActiveQuizz = createSelector(
+  getQuizState,
+  (quiz) => quiz.activeQuizzId
+);
+export const getIsLoading = createSelector(
+  getQuizState,
+  (quiz) => quiz.isLoading
+);
 
 export const getQuizById = (quizId: string | undefined) =>
   createSelector([getQuizzes], (quizzes) =>
