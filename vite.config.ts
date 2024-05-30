@@ -12,5 +12,13 @@ export default defineConfig({
       assets: '/src/assets',
     },
   },
-  base: '/',
+  base: '/quiz-testTask',
+  build: {
+    outDir: 'dist',
+    assetsDir: '.',
+  },
+
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
 });
